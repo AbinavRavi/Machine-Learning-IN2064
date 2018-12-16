@@ -1,0 +1,85 @@
+
+\documentclass[5pt,a4paper]{article}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\begin{document}
+	\title{Machine learning Homework- Linear regression}
+	\author{Abinav Ravi Venkatakrishnan - 03694216 and Abhijeet Parida - 03679676}
+	\maketitle
+	
+	\section{Least Square Regression}
+	\subsection*{Problem 2}
+	\textbf{Given:} The error function 
+	\begin{equation}
+	E_{weighted}(w) = \frac{1}{2}\sum_{i=1}^{N}t_i[w^T \phi(x_i)-y_i]^2
+	\end{equation}
+	We know that taking the first derivative of the cost function gives the minimum of the error function.
+	\begin{equation}
+	\nabla E_{weighted}(w) = \nabla_w \frac{1}{2}\sum_{i=1}^{N}t_i[w^T \phi(x_i)-y_i]^2 = 0
+	\end{equation}
+	Now the RHS can be written as a matrix equation with T as the diagonal matrix. 
+	\begin{equation}
+	\nabla_w E_{weighted} = \nabla_w \frac{1}{2}  [\Phi^T\textbf{T}w - y]^T[\Phi^T\textbf{T}w - y]
+	\end{equation} 
+	
+	If T = I(Identity Matrix) hence giving the solution
+	\begin{equation}
+	w_* = (\Phi^T\Phi )^{-1} \Phi^T y 
+	\end{equation}
+	
+	$t_i$ acts as a multiplication factor for variance in $y_i$ due to $x_i$
+	
+	when the data points for which there are exact copies in the dataset.The error contribution due to these repeated points are increased. 
+	
+	\section{Ridge regression}
+	\subsection*{Problem 3}
+	Before Augmentation,
+	\begin{equation}
+	E_{ridge}=\frac{1}{2}\sum_{i=1}^{N}(w^T_N \phi(x_i)-y_i)^2+\frac{\lambda}{2} w_N^Tw_N \label{eqn2}
+	\end{equation}
+	
+	After Augmentation,
+	\begin{equation*}
+	E_{ridge}=\frac{1}{2}\sum_{i=1}^{N+M}(w^T_{N+M} \phi(x_i)-y_i)^2+\frac{\lambda}{2} w_{N+M}^Tw_{N+M}
+	\end{equation*}
+	This can be split as,
+	\begin{eqnarray}
+		E_{ridge}&=\frac{1}{2}\sum_{i=1}^{N+M}(w^T_{N+M} \phi(x_i)-y_i)^2+\frac{\lambda}{2} w_{N+M}^Tw_{N+M}\\
+		&=\frac{1}{2}\sum_{i=1}^{N}(w^T_N \phi(x_i)-y_i)^2+\frac{\lambda}{2} w_N^Tw_N+\frac{1}{2}\sum_{i=N}^{N+M}(w^T_{N:N+M} \phi(x_i)-y_i)^2+\frac{\lambda}{2} w_{N:N+M}^Tw_{N:N+M} \\\label{eqn1}
+	\end{eqnarray}
+	In \ref{eqn1}, the term $w_{N:N+M}=0$, because
+	\begin{equation*}
+	w_{N:N+M}=(X_{N:N+M}^TX_{N:N+M})^{-1}X_{N:N+M}^Ty_{N:N+M}
+	\end{equation*}
+	because
+	\begin{equation*}
+	y_{N:N+M}=0
+	\end{equation*}
+    Therefore \ref{eqn1} is equal to  \ref{eqn2}
+    \section{Bayesian linear regression}
+    \subsection*{Problem 4}
+    We know that\\
+    posterior $\propto$likelyhood x prior\\
+    we will work in the log scale to easily deal with the $\prod$
+    \begin{eqnarray*}
+    log(\mathcal{N}(\textbf{w}|\textbf{m}_N,\beta^{-1}\textbf{S}_N))+log(Gamma(\beta|a_N,b_N))=& \sum_{i=1}^{N}log(\mathcal{N}(y_i|\textbf{w}^T\phi(x_i),\beta^{-1}))\\&+ log(\mathcal{N}(\textbf{w}|\textbf{m}_0,\beta^{-1}\textbf{S}_0))\\&+log(Gamma(\beta|a_0,b_0))
+    \end{eqnarray*}
+	
+	By simple pattern matching after resolution we can easily find the unknowns and will hence prove the validity of the claim. 
+
+
+	
+	
+	
+	
+\end{document}
