@@ -1,0 +1,58 @@
+
+\documentclass[5pt,a4paper]{article}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\begin{document}
+	\title{Machine learning Homework- Linear Classification}
+	\author{Abinav Ravi Venkatakrishnan - 03694216 and Abhijeet Parida - 03679676}
+	\maketitle
+	\section*{Problem 1:}
+	\begin{enumerate}
+	
+	\item \textbf{Given:} Prior $p(y=1) = \frac{1}{2}$\\
+	Likelihood function = $p(x|y=1) = Expo(x|\lambda_1)$\\
+	By Bayes theorem we know that\\
+	\begin{equation}
+		p(y = 1|x) = \frac{p(x|y = 1)p(y=1)}{p(x)}
+	\end{equation}
+	this corresponds to\\
+	\begin{equation}
+	posterior = \frac{likelihood * prior}{evidence}
+	\end{equation}
+	Since the Prior is a constant function so the Posterior is similar to the likelihood.\\
+	So the Posterior is also of the exponential distribution.
+	\item The first derivative of the exponential distribution is at $x=1$; which gives the maxima value as $\frac{\lambda_1}{2} exp(-\lambda_1)$
+\end{enumerate} 
+	\section*{Problem 2:}
+	We would like to map the given domain to [-1,1] for logistic regression. Now once the mapping is done the Negative log likelihood will look like the heaviside function.
+	
+	The problem of heaviside function is that at $\textbf{x}=0$ The derivative is not defined. Therefore a smoothening of this boundary is required and can be achieved via regularization.
+	\section*{Problem 3:}
+	The softmax loss for two class is given by Eqn.\ref{softmax}.
+	\begin{equation}
+	E_w=-\sum_{i=1}^{N}\sum_{c=1}^{2} y_{ic} ln\frac{exp(w_c^Tx)}{\sum_{c}^{}w_c^Tx}
+	\label{softmax}
+	\end{equation}
+	The sigmoid for a class is
+	\begin{equation}
+		p(y=1|x)=\sigma (w^Tx)
+	\end{equation}
+	
+	Since it is given that the problem is of binary classification. Softmax loss function for the same can be written as 
+	\begin{eqnarray}
+	p(y = 1| x) = \frac{exp(w_1^Tx)}{exp(w_1^Tx + w_2^Tx)}\\=\frac{1}{1+exp(w_2-w_1)^Tx}\\=\sigma((w_2-w_1)^Tx)
+	\end{eqnarray}
+	\section*{Problem 4:}
+	We can take the $\phi(x_1,x_2)=tan(angle(x_1,x_2))$. This is because $Tan$ function is positive valued in the First and Third quadrant and negative values in the Second and Fourth quadrant. therefore the separating line can be $\phi(x_1,x_2)=0$  
+	
+\end{document}
