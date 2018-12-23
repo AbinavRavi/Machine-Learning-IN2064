@@ -1,0 +1,44 @@
+
+\documentclass[5pt,a4paper]{article}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\begin{document}
+	\title{Machine learning Homework- Constrained Optimisation \& SVM }
+	\author{Abinav Ravi Venkatakrishnan - 03694216 and Abhijeet Parida - 03679676}
+	\maketitle
+	\section*{Problem 1:}
+	We construct the Lagrangian function as
+	$\mathcal{L}(\theta, \alpha)=f_0(\theta)+\alpha f_1(\theta)$\\
+	forcing $\nabla_\theta \mathcal{L}=0$. We get $\theta_1=-\frac{1}{2\alpha}$ and $\theta_2=\frac{\sqrt{3}}{2\alpha}$\\
+	substituting back the $\theta$ in the Lagrangian function and minimising with respect to $\alpha$, we get $\alpha=\pm \frac{1}{2}$ we take only the positive values of $\alpha=1/2$.\\
+	Therefore $\theta_1=-1$\\
+	$\theta_2=\sqrt{3}$
+	
+	\section*{Problem 2:}
+	Solved in a Jupyter Notebook attached at the end of problem of Problem 5.
+	
+	\section*{Problem 3:}
+	\begin{itemize}
+		\item Both use hyperplane for classification
+		\item SVM have margins and perceptrons do not have them
+	\end{itemize}
+	
+	\section*{Problem 4:}
+	As we use KKT conditions for finding the minima of the contraint optimisation problem. Therefore, We staisfy the Slater theorem, which states  if the constraint 	functions are affine, the duality gap is zero.
+	\section*{Problem 5:}
+	\begin{enumerate}
+		\item from $g(\alpha)$ we know that $\alpha Q\alpha^T$ is equivalent to $-\sum_{i=1}^{N}\sum_{j=1}^{N} y_i y_j \alpha_i \alpha_j \textbf{x}_i \textbf{x}_j$. By rearranging the scalars we get,$-\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i  y_i y_j  \textbf{x}_i \textbf{x}_j \alpha_j$. \\Therefore $Q= (-yy^T(hadamard)XX^T)$		\item We know that $Q=-p^Tp$ and also we know that $p^Tp$ is positive semi definite due to its symmetric nature. So $a^t (p^Tp)a \geq 0$ but we negative sign also. Therefore, $Q$ is negative semi definite.
+		\item The negative semi definiteness allows the concave optimisation to be a maximisation problem. 
+	\end{enumerate}
+	
+\end{document}
