@@ -1,0 +1,89 @@
+
+\documentclass[5pt,a4paper]{article}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\begin{document}
+	\title{Machine learning Homework- Deep Learning }
+	\author{Abinav Ravi Venkatakrishnan - 03694216 and Abhijeet Parida - 03679676}
+	\maketitle
+	\section{Activation Function}
+	\subsection*{Problem 1:}
+	The matrix operation $w^T+b$ is essentially a linear operation. When we stack linear operations over other linear operations we essentially get a linear function. It is impossible to approximate complex functions with just linear operations, therefore non-linearity is introduced to overcome this problem.
+	
+	\subsection*{Problem 2:}
+	The sigmoid activation function is \\
+	\begin{equation*}
+	\sigma(x)=\frac{1}{1+e^{-x}}
+	\end{equation*}
+	The tanh activation is\\
+	\begin{eqnarray*}
+	tanh(x)&=\frac{e^{2x}-1}{e^{2x}+1}\\
+	tanh(\frac{x}{2})&=\frac{e^{x}-1}{e^{x}+1}\\
+	tanh(\frac{x}{2})&=\frac{1-e^{-x}}{1+e^{-x}}\\
+%	tanh(\frac{x}{2})&=(1-e^{-x})\sigma(x)\\
+	tanh(\frac{x}{2})+1 &= \frac{1-e^{-x}}{1+e^{-x}}+1\\
+	tanh(\frac{x}{2})+1 &= \frac{2}{1+e^{-x}}\\ &= 2 \sigma(x) \\ 	
+	\end{eqnarray*}
+
+which implies that the $ \sigma (x) $ = $ tanh(\frac{x}{2})+ \frac{1}{2} $ Now for each hidden layer we can take half the input weights which will make it $\frac{x}{2}$ and the output weights from hidden layer can be factored by $ \frac{1}{2}$then add a constant of half to the bias term which gives us the sigmoid function. 
+	
+	\subsection*{Problem 3:}
+	From the previous problem we know that,
+	\begin{eqnarray*}
+		tanh(x)&=\frac{e^{2x}-1}{e^{2x}+1}\\
+		tanh(x)&=\frac{e^{x}-e^{-x}}{e^{x}+e^{-x}}\\
+	\end{eqnarray*}
+	Taking derivative on both sides we get,
+	\begin{eqnarray*}
+		\frac{d}{dx}(tanh(x))&=\frac{d}{dx}(\frac{e^{x}-e^{-x}}{e^{x}+e^{-x}})\\
+		&=(e^{x}+e^{-x})(e^{x}+e^{-x})^{-1}-(e^{x}+e^{-x})^{-2}(e^{x}-e^{-x})(e^{x}-e^{-x})\\
+		&= 1- (\frac{e^{x}-e^{-x}}{e^{x}+e^{-x}})^2\\
+		\frac{d}{dx}(tanh(x))&=1-(tanh(x))^2
+	\end{eqnarray*}
+	The advantage is that it is easy to compute the gradients during backpropagation.
+	\section{ Numerical Stability}
+	\subsection*{Problem 4:}
+	\begin{eqnarray*}
+	&a+log(\sum_{i=1}^{N}e^{x_i-a})\\
+	=&a+log(\sum_{i=1}^{N}e^{x_i}e^{-a})\\
+	=&a+log(e^{-a}\sum_{i=1}^{N}e^{x_i})\\
+	=&a+log(e^{-a})+log(\sum_{i=1}^{N}e^{x_i})\\
+	=&a-a+log(\sum_{i=1}^{N}e^{x_i})\\
+	=&log(\sum_{i=1}^{N}e^{x_i})\\
+	\end{eqnarray*}
+	Hence proved the equivalence
+	
+	\subsection*{Problem 5:}
+	\begin{eqnarray*}
+		&\frac{e^{x_i-a}}{\sum_{i=1}^{N}e^{x_i-a}}\\
+		=&\frac{e^{x_i}e^{-a}}{\sum_{i=1}^{N}(e^{x_i}e^{-a})}\\
+		=&\frac{e^{x_i}}{\sum_{i=1}^{N}(e^{x_i})}
+	\end{eqnarray*}
+	Hence proved the equivalence
+	
+	\subsection*{Problem 6:}
+	We can write the equivalent formulation as
+	\begin{eqnarray}
+		&x-xy+log(1+e^{-x})&\forall x>0\\
+		&xy+log(1+e^{x})&\forall x<0
+	\end{eqnarray}
+	\begin{eqnarray*}
+	&-(y log(\sigma(x))+(1-y)log(1-\sigma(x)))\\
+	&=-y log(\sigma(x))-log(1-\sigma(x))+y log(1-\sigma(x))\\
+	&=-y log(\frac{1}{1+e^{-x}})-log(1-\frac{1}{1+e^{-x}})+y log(1-\frac{1}{1+e^{-x}})\\
+	&=-y log(\frac{1}{1+e^{-x}})-log(\frac{e^{-x}}{1+e^{-x}})+ylog(\frac{e^{-x}}{1+e^{-x}})\\
+	&=-y log(\frac{1}{1+e^{-x}})+x+log(1+e^{-x})-xy-ylog(1+e^{-x})
+	&=x-xy+log(1+e^{-x})
+	\end{eqnarray*}
+	Since here x are logits and logits can never be negative so the end equation matches Eqn 1. hence it is proved.
+\end{document}
