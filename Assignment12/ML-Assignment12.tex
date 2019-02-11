@@ -1,0 +1,88 @@
+
+\documentclass[5pt,a4paper]{article}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\begin{document}
+	\title{Machine learning Homework- Variational Inference }
+	\author{Abinav Ravi Venkatakrishnan - 03694216}
+	\maketitle
+	\section{KL Divergence}
+	\subsection*{Problem 1:}
+	\textbf{Given} Two gaussians $ p(x) $ and $ q(x) $ with means $ \mu_1 $ and $ \mu_2 $ and covariances $ \sum_1 $ and $ \sum_2 $. We know that for gaussians with diagonal covariances the gaussian function factorizes into product of gaussians which implies that
+	\begin{equation}
+	p(x) = \prod_j p_j(x_j) 
+	\end{equation}
+	also we know that the formula of KL divergence can be written as sum of individual divergence because of the above property.hence
+	\begin{eqnarray}
+	KL(p||q) = \int p(x_j) log(\frac{p(x_j)}{q(x_j)})\\ = \E_p(\log p(x)) - \E_p(\log q(x)) 
+	\end{eqnarray}
+	Now $ \E_p (\log p(x)) $ is the entropy of the univariate gaussian which is given by $ -\frac{1}{2}\ln(2 \pi \sigma^2 \exp) $ also can be written as $ -\frac{1}{2} \log(2 \pi \sigma_{1}^2) - \frac{1}{2}$
+	
+	$ \E_p (\log q(x)) $ is given by
+	\begin{eqnarray}
+	\int p_j \log(q_j(x)) = \E_{pj}(-log q_j(x)) \\=\E_{pj}[\frac{1}{2}log(2\pi \sigma_{2}+\frac{(x-\mu_2)^2}{2\sigma_{2}^2})]\\ = \frac{1}{2}\log(2 \pi \sigma_{2}^2) + \frac{\sigma_{1}^2+(\mu_1 -\mu_2)^2}{2 \sigma_{2}^2}
+	\end{eqnarray}
+	
+	adding both we get
+	\begin{eqnarray}
+	KL(p||q) = -\frac{1}{2}-\frac{1}{2} \log(2 \pi \sigma_{1}^2)+\frac{1}{2}\log(2 \pi \sigma_{2}^2) + \frac{\sigma_{1}^2+(\mu_1 -\mu_2)^2}{2 \sigma_{2}^2} \\ = -\frac{1}{2}+ \log(\frac{\sigma_{2}}{\sigma_{1}}) +\frac{\sigma_{1}^2+(\mu_1 -\mu_2)^2}{2 \sigma_{2}^2} 
+	\end{eqnarray}
+	
+	
+	\subsection*{Problem 2:}
+	The KL divergence is written as 
+	\begin{equation}
+	KL(p||q) = -\int p(x) \log q(x) dx + \int p(x) log p(x) dx
+	\end{equation}
+	we know that gaussian q(x) can be written as with Identity covariance matrix as
+	\begin{eqnarray}
+	\log q(x) = -\frac{D}{2}\log 2\pi -\frac{1}{2}|I| - \frac{1}{2}(x - \mu)^T I (x- \mu)\\
+	-\int p(x) \log q(x) dx = -\int p(x)  -\frac{D}{2}\log 2\pi -\frac{1}{2}|I| - \frac{1}{2}(x - \mu)^T I (x- \mu)\\
+	\end{eqnarray}
+	
+	whereas since the second term is not dependent on $ q(x) $ it can be considered as a constant.Considering constants the equation becomes\\
+	
+	\begin{eqnarray}
+	KL(p||q) = \frac{1}{2}(\E_p[x] - \mu)^T(\E_p[x]-\mu) +const
+	\end{eqnarray}
+	computing gradient for above equation and after some calculations we get 
+	\begin{equation}
+	\nabla_{\mu} KL(p||q) = \mu - \E_p[x]
+	\end{equation}
+	
+	Optimal parameter is obtained when the gradient is set to zero so we get 
+	\begin{equation}
+	\mu = \E_p[x]
+	\end{equation}
+	
+	\section{Mean field variational inference:}
+	\subsection*{Problem 3:}
+	We need to find the posterior$ p(z|x) $ we know that posterior is proportional to the likelihood.
+	so \\
+	$ p(z|x) \propto p(x|z) $\\
+	we also know that from given gaussian distribution
+	\begin{eqnarray}
+	\mathcal{N}(x|\theta^TZ,1)\\ 
+	p(z|x) = p(z1)p(z2)p(x|z)\\
+	p(z|x) = exp(-\frac{1}{2}(z_1^2+z_2^2+(x - \theta_1 z1 - \theta_2 z2)^2))
+	\end{eqnarray}
+	upon expanding we get a $ 2 \theta_1\theta_2z_1z_2 $ term due to which we cannot factorize.
+	
+	
+	
+	\subsection*{Problem 4:}
+	As seen in the previous problem we cannot factorize the true posterior. So $ q(z) $ is not able to match the true posterior $ p(z|x)$
+	
+	
+\end{document}
